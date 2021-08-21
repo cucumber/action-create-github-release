@@ -1,5 +1,5 @@
 FROM mattwynne/changelog:latest
-RUN apt-get update && apt-get install wget
+RUN apk add --no-cache wget
 RUN wget https://github.com/cli/cli/releases/download/v1.14.0/gh_1.14.0_linux_386.tar.gz -O ghcli.tar.gz
 RUN tar --strip-components=1 -xf ghcli.tar.gz
 ENV PATH="${PATH}:bin/"
