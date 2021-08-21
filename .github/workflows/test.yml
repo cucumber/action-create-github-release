@@ -1,0 +1,46 @@
+on: [push]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: Creates a Release for a squashed release branch
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up git config
+        run: |
+          git config --global user.email "github-actions@example.com"
+          git config --global user.name "GitHub Actions"
+          git checkout -b develop --orphan
+      - run: touch CHANGELOG.md
+      - name: Create a simple changelog file
+        uses: cucumber-actions/changelog-action@v1.3
+        with:
+          args: init --output CHANGELOG.md --compare-url https://example.com/abcdef...HEAD
+      - name: Create an initial commit
+        run: |
+          git commit -am "Add a changelog"
+      - name: Run changelog release
+        uses: cucumber-actions/changelog-action@v1.3
+        with:
+          args: release --output CHANGELOG.md 1.0.0
+      - name: Commit release
+        run: |
+          git commit -am "Release v1.0.0"
+      - name: Create release branch
+        run: |
+          git checkout head^
+          git checkout -b release/test/v1.0.0
+          git merge develop
+          git push --force
+      - name: Attempt to create Release
+        uses: ./
+        with:
+          github-token: ${{ GITHUB_TOKEN }}
+          tag-prefix: 'test/'
+      - name: Assert result
+        run: |
+          release=$(gh release list | grep test/v1.0.0)
+          [ "$release" ]
+          gh release delete $release
+          git push origin :refs/release/test/v1.0.0

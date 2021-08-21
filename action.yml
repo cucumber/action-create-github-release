@@ -1,0 +1,24 @@
+name: "Versions"
+author: "Matt Wynne"
+description: "Read version numbers from git tags and CHANGELOG to see if a release is needed"
+
+inputs:
+  github-token:
+    description: "Github token to use when calling GitHub API to create Release"
+    default: ""
+
+  tag-prefix:
+    description: "A prefix to use when searching for tags, e.g. `cucumber-expressions/`"
+    default: ""
+
+  changelog-directory:
+    description: "Path within the repo to look for the CHANGELOG.md file"
+    default: "."
+
+runs:
+  using: "docker"
+  image: Dockerfile
+  args:
+    - ${{ inputs.github-token }}
+    - ${{ inputs.tag-prefix }}
+    - ${{ inputs.changelog-directory }}
