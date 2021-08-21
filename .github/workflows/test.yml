@@ -36,7 +36,7 @@ jobs:
       - name: Attempt to create Release
         uses: ./
         with:
-          github-token: ${{ GITHUB_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           tag-prefix: 'test/'
       - name: Assert result
         run: |
