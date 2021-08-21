@@ -29,7 +29,7 @@ jobs:
           git commit -am "Release v1.0.0"
       - name: Create release branch
         run: |
-          git checkout head^
+          git checkout HEAD^
           git checkout -b release/test/v1.0.0
           git merge develop
           git push --force
