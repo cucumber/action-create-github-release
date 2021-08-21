@@ -34,7 +34,7 @@ jobs:
           git checkout HEAD^
           git checkout -b release/test/v1.0.0
           git merge develop
-          git push --set-upstream origin release/test/v1.0.0
+          git push --force --set-upstream origin release/test/v1.0.0
       - name: Attempt to create Release
         uses: ./
         with:
