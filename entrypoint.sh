@@ -16,9 +16,8 @@ tag=v$next_version
 data='{"tag_name":"'"$tag"'", "target_commitish":"'"$sha"'", "body":"'"$body"'", "name":"'"$name"'"}'
 echo $data
 curl \
-  -v \
-  -H "Authorization: token $1" \
   -X POST \
+  -H "Authorization: token $1" \
   -H "Accept: application/vnd.github.v3+json" \
   https://api.github.com/repos/$GITHUB_REPOSITORY/releases \
   -d "'"$data"'"
