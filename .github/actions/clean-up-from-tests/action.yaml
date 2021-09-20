@@ -10,9 +10,10 @@ runs:
 
     - name: Delete Release
       run: |
-        expected_name="vT.E.S.T"
-        release=$(gh release list | grep $expected_name | cut -f1)
-        [ $release ] & gh release delete $release
+        name="vT.E.S.T"
+        release=$(gh release list | grep $name | cut -f1)
+        [ $release ] && gh release delete $release
+        exit 0
       env: 
         GITHUB_TOKEN: ${{ inputs.github-token }}
       shell: bash
