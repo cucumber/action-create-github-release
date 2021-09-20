@@ -39,16 +39,16 @@ jobs:
         uses: ./
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Assert release exists
+      - name: Assertions / cleanup
         env: 
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Assert release exists
+          # Assert that the release was created
           expected_name="vT.E.S.T"
           release=$(gh release list | grep $expected_name | cut -f1)
           [ "$release" ] || (echo "No release created named $expected_name" && exit 1)
 
-          # Assert tag points to the head of `develop` branch
+          # Assert that a tag for the release points to the head of `develop` branch
           expected=$(git rev-parse develop)
           actual=$(git rev-parse vT.E.S.T)
           [ "$expected" = "$actual" ] || (echo "Commit $expected not tagged as expected" && exit 1)
