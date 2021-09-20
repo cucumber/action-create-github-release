@@ -1,18 +1,21 @@
 #!/bin/sh
 
-echo "$1" > gh auth login --with-token
-
+# Read next version from CHANGLOG
 next_version_heading=$(changelog latest --filename $3/CHANGELOG.md)
 next_version=${next_version_heading/v}
 next_version=$([[ "$next_version" == There* ]] && (echo $next_version && exit 1) || echo $next_version)
-tag=$2v$next_version
 
-url=$(gh pr list --state closed --base release/v$next_version --json url --jq '.[0].url')
-sha=$(gh pr view $url --json commits --jq '.commits[-1].oid')
+# Get release notes from CHANGELOG
+changelog show --filename CHANGELOG.md --output $RUNNER_TEMP/notes
 
-changelog show --filename $3/CHANGELOG.md --output $RUNNER_TEMP/notes
-gh release create \
-	--notes-file $RUNNER_TEMP/notes \
-	--title v$next_version \
-    --target $sha \
-	$tag
+# Create GitHub Release
+sha=$GITHUB_SHA
+body=$(cat $RUNNER_TEMP/notes)
+name=v$next_version
+tag=v$next_version
+curl \
+  -H "Authorization: token $1" \
+  -X POST \
+  -H "Accept: application/vnd.github.v3+json" \
+  https://api.github.com/repos/$GITHUB_REPOSITORY/releases \
+  -d '{ "tag_name":"$tag", "target_commitish":"$sha", "body":"$body", "name":"$name"}'

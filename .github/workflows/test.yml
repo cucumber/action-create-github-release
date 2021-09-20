@@ -5,7 +5,7 @@ on: [push]
 jobs:
   test:
     runs-on: ubuntu-latest
-    name: Creates a Release for a squashed release branch
+    name: Creates a Release for a fast-forwarded release branch
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -15,34 +15,33 @@ jobs:
           git config --global user.name "GitHub Actions"
           git checkout --orphan develop
       - run: touch CHANGELOG.md
-      - name: Create a simple changelog file
+      - name: Create a simple CHANGELOG
         uses: cucumber-actions/changelog-action@v1.3
         with:
           args: init --output CHANGELOG.md --compare-url https://example.com/abcdef...HEAD
-      - name: Create an initial commit
+      - name: Commit the CHANGELOG
         run: |
           git commit -am "Add a changelog"
-      - name: Run changelog release
+      - name: Create a release in the CHANGELOG
         uses: cucumber-actions/changelog-action@v1.3
         with:
           args: release --output CHANGELOG.md 1.0.0
-      - name: Commit release
+      - name: Commit the release
         run: |
           git commit -am "Release v1.0.0"
       - name: Create release branch
         run: |
           git checkout HEAD^
           git checkout -b release/test/v1.0.0
-          git merge develop
+          git merge --ff-only develop 
           git push --force --set-upstream origin release/test/v1.0.0
       - name: Attempt to create Release
         uses: ./
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          tag-prefix: 'test/'
       - name: Assert result
         run: |
-          release=$(gh release list | grep test/v1.0.0)
+          release=$(gh release list | grep v1.0.0)
           [ "$release" ]
           gh release delete $release
-          git push origin :refs/release/test/v1.0.0
+          git push origin :refs/heads/release/test/v1.0.0
