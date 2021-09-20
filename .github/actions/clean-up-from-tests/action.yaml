@@ -12,6 +12,7 @@ runs:
       run: |
         name="vT.E.S.T"
         release=$(gh release list | grep $name)
+        echo $release
         [ $release ] && gh release delete "$name" --yes || exit 0
       env: 
         GITHUB_TOKEN: ${{ inputs.github-token }}
