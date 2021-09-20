@@ -4,10 +4,10 @@
 next_version_heading=$(changelog latest --filename CHANGELOG.md)
 next_version=${next_version_heading/v}
 next_version=$([[ "$next_version" == There* ]] && (echo $next_version && exit 1) || echo $next_version)
+echo "Next version: '$next_version'"
 
 # Get release notes from CHANGELOG
-echo "Next version: '$next_version_heading'"
-changelog show "$next_version_heading" --filename CHANGELOG.md --output $RUNNER_TEMP/notes
+body=$(changelog show "$next_version_heading" --filename CHANGELOG.md --output)
 
 # Create GitHub Release
 sha=$GITHUB_SHA
