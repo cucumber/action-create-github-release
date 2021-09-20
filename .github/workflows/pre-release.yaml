@@ -21,6 +21,8 @@ jobs:
       pull-requests: write
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - uses: cucumber-actions/versions@v1.0.0
         id: versions
       - uses: cucumber-actions/create-release-pr@v1.1.0
