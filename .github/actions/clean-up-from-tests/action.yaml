@@ -10,8 +10,9 @@ runs:
     - name: Delete Release
       run: |
         gh auth status
+        name="vT.E.S.T"
+        echo "Release to delete: $name"
         # gh release list
-        # name="vT.E.S.T"
         # release=$(gh release list | grep $name)
         # echo "Release: $release"
         # [ $release ] && gh release delete "$name" --yes || echo "No release to delete"
