@@ -13,7 +13,7 @@ body=$(changelog show "$next_version_heading")
 sha=$GITHUB_SHA
 name=v$next_version
 tag=v$next_version
-data='{"tag_name":"$tag", "target_commitish":"$sha", "body":"$body", "name":"$name"}'
+data='{"tag_name":"'"$tag"'", "target_commitish":"'"$sha"'", "body":"'"$body"'", "name":"'"$name"'"}'
 echo $data
 curl \
   -v \
