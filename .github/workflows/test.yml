@@ -25,16 +25,16 @@ jobs:
       - name: Create a release in the CHANGELOG
         uses: cucumber-actions/changelog-action@v1.3
         with:
-          args: release --output CHANGELOG.md 1.0.0
+          args: release --output CHANGELOG.md T.E.S.T
       - name: Commit the release
         run: |
-          git commit -am "Release v1.0.0"
+          git commit -am "Release vT.E.S.T"
       - name: Create release branch
         run: |
           git checkout HEAD^
-          git checkout -b release/test/v1.0.0
+          git checkout -b release/test
           git merge --ff-only develop 
-          git push --force --set-upstream origin release/test/v1.0.0
+          git push --set-upstream origin release/test
       - name: Attempt to create Release
         uses: ./
         with:
@@ -43,7 +43,17 @@ jobs:
         env: 
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          release=$(gh release list | grep v1.0.0 | cut -f1)
+          # Assert release exists
+          release=$(gh release list | grep vtest | cut -f1)
           [ "$release" ]
+
+          # Assert tag points to the head of `develop` branch
+          expected=$(git rev-parse develop)
+          actual=$(git rev-parse vT.E.S.T)
+          [ "$expected" = "$actual" ]
+
+          # Clean up
           gh release delete $release
-          git push origin :refs/heads/release/test/v1.0.0
+          git push origin :refs/heads/develop
+          git push origin :refs/heads/release/test
+          git push origin :refs/tags/vT.E.S.T
