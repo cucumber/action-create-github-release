@@ -1,0 +1,19 @@
+name: 'Clean up from tests'
+description: 'Delete any existing data created by the tests'
+inputs:
+  github-token:
+    description: "Github token to use when calling GitHub API"
+    default: ""
+runs:
+  using: "composite"
+  steps:
+    - run: |
+        export GITHUB_TOKEN=${{ inputs.github-token }}
+        expected_name="vT.E.S.T"
+        release=$(gh release list | grep $expected_name | cut -f1)
+
+        gh release delete $release
+        git push origin :refs/heads/develop
+        git push origin :refs/heads/release/test
+        git push origin :refs/tags/vT.E.S.T
+      shell: bash
