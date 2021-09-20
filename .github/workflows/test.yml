@@ -50,6 +50,7 @@ jobs:
           [ "$release" ] || (echo "No release created named $expected_name" && exit 1)
 
           # Assert that a tag for the release points to the head of `develop` branch
+          git fetch --tags
           expected=$(git rev-parse develop)
           actual=$(git rev-parse vT.E.S.T)
           [ "$expected" = "$actual" ] || (echo "Commit $expected not tagged as expected" && exit 1)
