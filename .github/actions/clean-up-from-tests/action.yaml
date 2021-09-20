@@ -10,12 +10,12 @@ runs:
     - name: Delete Release
       run: |
         gh auth status
-        gh release list
-        name="vT.E.S.T"
-        release=$(gh release list | grep $name)
-        echo "Release: $release"
-        [ $release ] && gh release delete "$name" --yes || echo "No release to delete"
-        exit 0
+        # gh release list
+        # name="vT.E.S.T"
+        # release=$(gh release list | grep $name)
+        # echo "Release: $release"
+        # [ $release ] && gh release delete "$name" --yes || echo "No release to delete"
+        # exit 0
       env: 
         GITHUB_TOKEN: ${{ inputs.github-token }}
       shell: bash
