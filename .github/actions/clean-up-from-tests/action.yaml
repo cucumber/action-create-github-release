@@ -15,10 +15,11 @@ runs:
         echo "List releases:"
         gh release list
         echo "That's all of them"
-        # release=$(gh release list | grep $name)
-        # echo "Release: $release"
-        # [ $release ] && gh release delete "$name" --yes || echo "No release to delete"
-        # exit 0
+        all_releases=$(gh release list)
+        [ -z "$all_releases" ] && echo "No releases exist" && exit 0
+        release=$(echo $all_releases | grep $name)
+        [ -z "$release" ] && echo "No release named $name exists in $all_releases" && exit 0
+        gh release delete "$name" --yes
       env: 
         GITHUB_TOKEN: ${{ inputs.github-token }}
       shell: bash

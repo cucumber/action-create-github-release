@@ -10,7 +10,8 @@ echo "Next version: '$next_version'"
 body=$(changelog show "$next_version_heading")
 
 # Create GitHub Release
-sha=$GITHUB_SHA
+sha=$(git rev-parse HEAD)
+echo "Release sha: $sha"
 name=v$next_version
 tag=v$next_version
 cat <<EOT >> data.json
