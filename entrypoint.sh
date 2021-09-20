@@ -13,10 +13,18 @@ body=$(changelog show "$next_version_heading")
 sha=$GITHUB_SHA
 name=v$next_version
 tag=v$next_version
+cat <<EOT >> data.json
+{
+  "tag_name": "$tag",
+  "target_commitish": "$sha",
+  "body":"$body",
+  "name":"$name"
+}
+EOT
 echo $data
 curl \
   -X POST \
   -H "Authorization: token $1" \
   -H "Accept: application/vnd.github.v3+json" \
   https://api.github.com/repos/$GITHUB_REPOSITORY/releases \
-  -d '{"tag_name":"'"$tag"'", "target_commitish":"'"$sha"'", "body":"'"$body"'", "name":"'"$name"'"}'
+  -d @data.json
