@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Read next version from CHANGLOG
-next_version_heading=$(changelog latest --filename $3/CHANGELOG.md)
+next_version_heading=$(changelog latest --filename CHANGELOG.md)
 next_version=${next_version_heading/v}
 next_version=$([[ "$next_version" == There* ]] && (echo $next_version && exit 1) || echo $next_version)
 
