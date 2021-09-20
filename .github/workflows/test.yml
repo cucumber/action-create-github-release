@@ -39,11 +39,11 @@ jobs:
         uses: ./
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Assert result
+      - name: Assert release exists
         env: 
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          release=$(gh release list | grep v1.0.0)
+          release=$(gh release list | grep v1.0.0 | cut -f1)
           [ "$release" ]
           gh release delete $release
           git push origin :refs/heads/release/test/v1.0.0
