@@ -7,13 +7,13 @@ inputs:
 runs:
   using: "composite"
   steps:
-
     - name: Delete Release
       run: |
+        gh auth status
         name="vT.E.S.T"
         release=$(gh release list | grep $name)
         echo $release
-        [ $release ] && gh release delete "$name" --yes || exit 0
+        [ $release ] && gh release delete "$name" --yes || echo "No release to delete"
       env: 
         GITHUB_TOKEN: ${{ inputs.github-token }}
       shell: bash
