@@ -18,7 +18,7 @@ Then, use [semver](https://semver.org/) to pick a version for the next release.
 
 Modify the changelog:
 
-    changelog release $next_release
+    changelog release $next_release -o CHANGELOG.md
 
 Commit and push
 
