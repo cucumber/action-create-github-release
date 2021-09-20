@@ -13,9 +13,6 @@ runs:
         expected_name="vT.E.S.T"
         release=$(gh release list | grep $expected_name | cut -f1)
         [ $release ] & gh release delete $release
-        git push origin :refs/heads/develop
-        git push origin :refs/heads/release/test
-        git push origin :refs/tags/vT.E.S.T
       env: 
         GITHUB_TOKEN: ${{ inputs.github-token }}
       shell: bash
