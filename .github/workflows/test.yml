@@ -34,7 +34,8 @@ jobs:
           git checkout HEAD^
           git checkout -b release/test
           git merge --ff-only develop 
-          git push --set-upstream origin release/test
+          # use `--force` just in case previous cleanup didn't run
+          git push --force --set-upstream origin release/test
       - name: Attempt to create Release
         uses: ./
         with:
