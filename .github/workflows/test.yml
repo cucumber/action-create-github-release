@@ -44,13 +44,14 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # Assert release exists
-          release=$(gh release list | grep vtest | cut -f1)
-          [ "$release" ]
+          expected_name="vT.E.S.T"
+          release=$(gh release list | grep $expected_name | cut -f1)
+          [ "$release" ] || echo "No release created named $expected_name" && exit 1
 
           # Assert tag points to the head of `develop` branch
           expected=$(git rev-parse develop)
           actual=$(git rev-parse vT.E.S.T)
-          [ "$expected" = "$actual" ]
+          [ "$expected" = "$actual" ] || echo "Commit $expected not tagged as expected" && exit 1
 
           # Clean up
           gh release delete $release
