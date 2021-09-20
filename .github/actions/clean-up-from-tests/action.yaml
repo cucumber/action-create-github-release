@@ -22,4 +22,5 @@ runs:
         git push origin :refs/heads/develop
         git push origin :refs/heads/release/test
         git push origin :refs/tags/vT.E.S.T
+        exit 0
       shell: bash
