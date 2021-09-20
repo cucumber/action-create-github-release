@@ -11,7 +11,6 @@ body=$(changelog show "$next_version_heading")
 
 # Create GitHub Release
 sha=$GITHUB_SHA
-body=$(cat $RUNNER_TEMP/notes)
 name=v$next_version
 tag=v$next_version
 curl \
