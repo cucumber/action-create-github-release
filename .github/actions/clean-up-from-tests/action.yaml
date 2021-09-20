@@ -12,7 +12,9 @@ runs:
         gh auth status
         name="vT.E.S.T"
         echo "Release to delete: $name"
-        # gh release list
+        echo "List releases:"
+        gh release list
+        echo "That's all of them"
         # release=$(gh release list | grep $name)
         # echo "Release: $release"
         # [ $release ] && gh release delete "$name" --yes || echo "No release to delete"
