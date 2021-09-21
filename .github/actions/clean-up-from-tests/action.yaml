@@ -21,7 +21,7 @@ runs:
           echo "No releases exist" 
           exit 0
         fi
-        release=$(echo $all_releases | { grep $name || true })
+        release=$(echo $all_releases | { grep $name || true; } )
         if [[ -z "$release" ]] ; then 
           echo "No release named '$name' exists"
           exit 0
