@@ -16,9 +16,9 @@ runs:
         gh release list
         echo "That's all of them"
         all_releases=$(gh release list)
-        [ -z "$all_releases" ] && echo "No releases exist" && exit 0
+        [[ -z "$all_releases" ]] (&& echo "No releases exist" && exit 0) || true
         release=$(echo $all_releases | grep $name)
-        [ -z "$release" ] && echo "No release named $name exists in $all_releases" && exit 0
+        [[ -z "$release" ]] (&& echo "No release named $name exists in $all_releases" && exit 0) || true
         gh release delete "$name" --yes
       env: 
         GITHUB_TOKEN: ${{ inputs.github-token }}
