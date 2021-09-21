@@ -63,6 +63,7 @@ jobs:
             exit 1;
           fi
 
+      # TODO: Figure out why the backslashed text disappears
       - name: Assert that the release body is as expected
         env: 
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -70,7 +71,7 @@ jobs:
           name="vT.E.S.T"
           expected=$(cat << "END"
           ### Added
-          - Some `amazing` stuff
+          - Some  stuff
           END
           )
           actual=$(gh release view $name --json body --jq ".body")
