@@ -8,7 +8,7 @@ echo "Next version: '$next_version'"
 
 # Get release notes from CHANGELOG
 changelog show "$next_version_heading"
-changelog show "1.0.0" | read -r -d '' body
+changelog show "$next_version_heading" | read -r -d '' body
 # body=$(changelog show "$next_version_heading")
 # body=${body//$'\n'/\\n}
 # body=${body//$'`'/'\\\`'}
