@@ -9,7 +9,7 @@ echo "Next version: '$next_version'"
 # Get release notes from CHANGELOG
 body=$(changelog show "$next_version_heading")
 body=${body//$'\n'/\\n}
-body=${body//$'`'/\\\`}
+body=${body//$'`'/'\`'}
 echo "body:"
 echo "$body"
 
