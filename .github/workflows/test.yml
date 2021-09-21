@@ -57,10 +57,11 @@ jobs:
           name="vT.E.S.T"
           release=$(gh release list | grep $name | cut -f1)
           echo "Release: $release"
-          if [[ -z "$release" ]]; then
+          if [[ -z "$release" ]]
+          then
             echo "No release created named $name";
             exit 1;
-          if
+          fi
 
       - name: Assert that the release body is as expected
         env: 
