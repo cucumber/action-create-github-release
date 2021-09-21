@@ -23,7 +23,7 @@ runs:
         fi
         release=$(echo $all_releases | { grep $name || true; } )
         if [[ -z "$release" ]] ; then 
-          echo "No release named '$name' exists"
+          echo "No release named '$name' exists: nothing to delete"
           exit 0
         fi
         gh release delete "$name" --yes
