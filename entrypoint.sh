@@ -7,9 +7,10 @@ next_version=$([[ "$next_version" == There* ]] && (echo $next_version && exit 1)
 echo "Next version: '$next_version'"
 
 # Get release notes from CHANGELOG
+changelog show "$next_version_heading"
 body=$(changelog show "$next_version_heading")
 body=${body//$'\n'/\\n}
-body=${body//$'`'/'\\`'}
+body=${body//$'`'/'\\\`'}
 echo "body:"
 echo "$body"
 
