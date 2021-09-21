@@ -16,6 +16,7 @@ runs:
         gh release list
         echo "That's all of them"
         all_releases=$(gh release list)
+        echo "All releases: $all_releases"
         [[ -z "$all_releases" ]] && (echo "No releases exist" && exit 0) || true
         release=$(echo $all_releases | grep $name)
         [[ -z "$release" ]] && (echo "No release named $name exists in $all_releases" && exit 0) || true
