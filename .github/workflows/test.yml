@@ -49,16 +49,19 @@ jobs:
         uses: ./
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Assert that the Release was created
         env: 
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           name="vT.E.S.T"
           release=$(gh release list | grep $name | cut -f1)
+          echo "Release: $release"
           if [[ -z "$release" ]]; then
             echo "No release created named $name"
             exit 1
           if
+
       - name: Assert that the release body is as expected
         env: 
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -75,6 +78,7 @@ jobs:
             echo "actual: \n----$actual\n----"
             exit 1
           fi
+
       - name: Assert that a tag for the release points to the head of `develop` branch
         env: 
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -83,6 +87,7 @@ jobs:
           expected=$(git rev-parse develop)
           actual=$(git rev-parse vT.E.S.T)
           [[ "$expected" = "$actual" ]] || { echo "Commit $expected not tagged as expected" && exit 1 }
+
       - uses: ./.github/actions/clean-up-from-tests
         if: ${{ always() }}
         with:
