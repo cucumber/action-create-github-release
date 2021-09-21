@@ -14,7 +14,7 @@ sha=$(git rev-parse HEAD)
 echo "Release sha: $sha"
 jq -n -r \
   --arg sha $sha \
-  --arg body $body \
+  --arg body "$body" \
   --arg name v$next_version \
   '{ tag_name: $name, target_commitish: $sha, body: $body, name: $name }' \
   | curl \
