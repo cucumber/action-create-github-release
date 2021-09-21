@@ -19,9 +19,16 @@ jobs:
           git checkout --orphan develop
       - run: touch CHANGELOG.md
       - name: Create a simple CHANGELOG
-        uses: cucumber-actions/changelog-action@v1.3
-        with:
-          args: init --output CHANGELOG.md --compare-url https://example.com/abcdef...HEAD
+        run: |
+          cat > CHANGELOG.md << EOF
+          # Changelog
+
+          ## [Unreleased]
+          ### Added
+          - Some `amazing` stuff
+
+          [Unreleased]: https://github.com/example/repo/v0.0.0...HEAD
+          EOF
       - name: Commit the CHANGELOG
         run: |
           git commit -am "Add a changelog"
@@ -32,31 +39,61 @@ jobs:
       - name: Commit the release
         run: |
           git commit -am "Release vT.E.S.T"
-      - name: Create release branch
+      - name: Create a release branch
         run: |
           git checkout HEAD^
           git checkout -b release/test
           git merge --ff-only develop 
-          # use `--force` just in case previous cleanup didn't run
-          git push --force --set-upstream origin release/test
-      - name: Attempt to create Release
+          git push --set-upstream origin release/test
+      - name: Test the action - attempt to create a Release
         uses: ./
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Assertions / cleanup
+
+      - name: Assert that the Release was created
         env: 
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Assert that the release was created
-          expected_name="vT.E.S.T"
-          release=$(gh release list | grep $expected_name | cut -f1)
-          [ "$release" ] || (echo "No release created named $expected_name" && exit 1)
+          name="vT.E.S.T"
+          release=$(gh release list | grep $name | cut -f1)
+          echo "Release: $release"
+          if [[ -z "$release" ]]
+          then
+            echo "No release created named $name";
+            exit 1;
+          fi
 
-          # Assert that a tag for the release points to the head of `develop` branch
+      # TODO: Figure out why the backslashed text disappears - see https://github.com/cucumber-actions/create-release/issues/3
+      - name: Assert that the release body is as expected
+        env: 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          name="vT.E.S.T"
+          expected=$(cat << "END"
+          ### Added
+          - Some  stuff
+          END
+          )
+          actual=$(gh release view $name --json body --jq ".body")
+          if [[ "$actual" != "$expected" ]]; then
+            echo "expected: \n----$expected\n----"
+            echo "actual: \n----$actual\n----"
+            exit 1
+          fi
+
+      - name: Assert that a tag for the release points to the head of `develop` branch
+        env: 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
           git fetch --tags
           expected=$(git rev-parse develop)
           actual=$(git rev-parse vT.E.S.T)
-          [ "$expected" = "$actual" ] || (echo "Commit $expected not tagged as expected" && exit 1)
+          if [[ "$expected" != "$actual" ]]; then
+            echo "Commit $expected not tagged 'vT.E.S.T' as expected"
+            exit 1
+          fi
+
       - uses: ./.github/actions/clean-up-from-tests
+        if: ${{ always() }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}

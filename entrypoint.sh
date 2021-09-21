@@ -12,20 +12,14 @@ body=$(changelog show "$next_version_heading")
 # Create GitHub Release
 sha=$(git rev-parse HEAD)
 echo "Release sha: $sha"
-name=v$next_version
-tag=v$next_version
-cat <<EOT >> data.json
-{
-  "tag_name": "$tag",
-  "target_commitish": "$sha",
-  "body":"$body",
-  "name":"$name"
-}
-EOT
-echo $data
-curl \
-  -X POST \
-  -H "Authorization: token $1" \
-  -H "Accept: application/vnd.github.v3+json" \
-  https://api.github.com/repos/$GITHUB_REPOSITORY/releases \
-  -d @data.json
+jq -n -r \
+  --arg sha $sha \
+  --arg body "$body" \
+  --arg name v$next_version \
+  '{ tag_name: $name, target_commitish: $sha, body: $body, name: $name }' \
+  | curl \
+    -X POST \
+    -H "Authorization: token $1" \
+    -H "Accept: application/vnd.github.v3+json" \
+    https://api.github.com/repos/$GITHUB_REPOSITORY/releases \
+    -d @-
