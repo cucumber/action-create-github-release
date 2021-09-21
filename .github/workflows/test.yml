@@ -63,7 +63,7 @@ jobs:
             exit 1;
           fi
 
-      # TODO: Figure out why the backslashed text disappears
+      # TODO: Figure out why the backslashed text disappears - see https://github.com/cucumber-actions/create-release/issues/3
       - name: Assert that the release body is as expected
         env: 
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -88,7 +88,10 @@ jobs:
           git fetch --tags
           expected=$(git rev-parse develop)
           actual=$(git rev-parse vT.E.S.T)
-          [[ "$expected" = "$actual" ]] || { echo "Commit $expected not tagged as expected" && exit 1 }
+          if [[ "$expected" != "$actual" ]]; then
+            echo "Commit $expected not tagged 'vT.E.S.T' as expected"
+            exit 1
+          fi
 
       - uses: ./.github/actions/clean-up-from-tests
         if: ${{ always() }}
