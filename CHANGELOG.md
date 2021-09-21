@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.0.0] - 2021-09-20
 ### Added
-- Make a Release tagging the HEAD of the current branch
+- Make a Release tagging the `HEAD` of the current branch
 
 [Unreleased]: https://github.com/cucumber-actions/versions/1.0.0...HEAD
 [1.0.0]: https://github.com/cucumber-actions/versions/v0.0.0...1.0.0
