@@ -8,9 +8,10 @@ echo "Next version: '$next_version'"
 
 # Get release notes from CHANGELOG
 changelog show "$next_version_heading"
-body=$(changelog show "$next_version_heading")
-body=${body//$'\n'/\\n}
-body=${body//$'`'/'\\\`'}
+changelog show "1.0.0" | read -r -d '' body
+# body=$(changelog show "$next_version_heading")
+# body=${body//$'\n'/\\n}
+# body=${body//$'`'/'\\\`'}
 echo "body:"
 echo "$body"
 
@@ -27,6 +28,7 @@ cat <<EOT >> data.json
   "name":"$name"
 }
 EOT
+cat data.json
 echo $data
 curl \
   -X POST \
