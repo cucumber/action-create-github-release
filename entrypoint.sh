@@ -9,6 +9,8 @@ echo "Next version: '$next_version'"
 # Get release notes from CHANGELOG
 body=$(changelog show "$next_version_heading")
 body=${body//$'\n'/\\n}
+echo "body:"
+echo "$body"
 
 # Create GitHub Release
 sha=$(git rev-parse HEAD)
