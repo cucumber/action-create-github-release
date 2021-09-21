@@ -55,7 +55,7 @@ jobs:
         run: |
           name="vT.E.S.T"
           release=$(gh release list | grep $name | cut -f1)
-          [ "$release" ] || { echo "No release created named $name" && exit 1 }
+          [[ "$release" ]] || { echo "No release created named $name" && false }
       - name: Assert that the release body is as expected
         env: 
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
