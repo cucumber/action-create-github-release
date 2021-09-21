@@ -55,7 +55,10 @@ jobs:
         run: |
           name="vT.E.S.T"
           release=$(gh release list | grep $name | cut -f1)
-          [[ "$release" ]] || { echo "No release created named $name" && false }
+          if [[ -z "$release" ]]; then
+            echo "No release created named $name"
+            exit 1
+          if
       - name: Assert that the release body is as expected
         env: 
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -81,5 +84,6 @@ jobs:
           actual=$(git rev-parse vT.E.S.T)
           [[ "$expected" = "$actual" ]] || { echo "Commit $expected not tagged as expected" && exit 1 }
       - uses: ./.github/actions/clean-up-from-tests
+        if: ${{ always() }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
