@@ -24,6 +24,7 @@ Commit and push
 
      git add .
      git commit -m "Release $next_release"
+     git push
 
 The [`pre-release` workflow](https://github.com/cucumber-actions/create-release/actions/workflows/pre-release.yaml) will pick up your changes and create a pull request for the release.
 
