@@ -16,6 +16,10 @@ The action requires a token to call the GitHub API to create the Release:
 
 The token needs 'write' permissions on the repo.
 
+## Outputs
+
+* `version` - the version number being released
+
 ## Example
 
 ````yaml
@@ -34,6 +38,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: cucumber-actions/create-release
+        id: release
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
+      - run: echo "Version ${{ steps.release.outputs.version }} was released!"
 ````
