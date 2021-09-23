@@ -37,7 +37,7 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v2
-      - uses: cucumber-actions/create-release
+      - uses: cucumber/actions-create-github-release@v1.1.0
         id: release
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
