@@ -33,7 +33,7 @@ jobs:
         run: |
           git commit -am "Add a changelog"
       - name: Create a release in the CHANGELOG
-        uses: cucumber-actions/changelog-action@v1.3
+        uses: cucumber/action-changelog@v1.3
         with:
           args: release --output CHANGELOG.md T.E.S.T
       - name: Commit the release
@@ -63,7 +63,7 @@ jobs:
             exit 1;
           fi
 
-      # TODO: Figure out why the backslashed text disappears - see https://github.com/cucumber-actions/create-release/issues/3
+      # TODO: Figure out why backticked text disappears - see https://github.com/cucumber/action-create-github-release/issues/3
       - name: Assert that the release body is as expected
         env: 
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

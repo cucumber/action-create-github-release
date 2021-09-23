@@ -26,7 +26,7 @@ Commit and push
      git commit -m "Release $next_release"
      git push
 
-The [`pre-release` workflow](https://github.com/cucumber-actions/create-release/actions/workflows/pre-release.yaml) will pick up your changes and create a pull request for the release.
+The [`pre-release` workflow](https://github.com/cucumber/actions-create-github-release/actions/workflows/pre-release.yaml) will pick up your changes and create a pull request for the release.
 
 ### Making a release
 
