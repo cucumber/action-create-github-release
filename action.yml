@@ -7,6 +7,10 @@ inputs:
     description: "Github token to use when calling GitHub API to create Release"
     default: ""
 
+outputs:
+  version:
+    description: "Version number"
+
 runs:
   using: "docker"
   image: Dockerfile
