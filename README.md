@@ -1,4 +1,4 @@
-# create-release
+# create-github-release
 
 This action was developed by the Cucumber team to use as part of our automated release process.
 
