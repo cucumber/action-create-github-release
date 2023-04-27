@@ -42,9 +42,9 @@ jobs:
       - name: Create a release branch
         run: |
           git checkout HEAD^
-          git checkout -b release/test
+          git checkout -b test-release/test
           git merge --ff-only develop 
-          git push --set-upstream origin release/test
+          git push --set-upstream origin test-release/test
       - name: Test the action - attempt to create a Release
         uses: ./
         with:
