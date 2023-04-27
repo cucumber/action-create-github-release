@@ -10,6 +10,9 @@ echo "Next version: '$next_version'"
 # Get release notes from CHANGELOG
 body=$(changelog show "$next_version_heading")
 
+# Disable warnings about dubious owner ship
+git config --global --add safe.directory '*'
+
 # Create GitHub Release
 sha=$(git rev-parse HEAD)
 echo "Release sha: $sha"
