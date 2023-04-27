@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 
 # Read next version from CHANGLOG
 next_version_heading=$(changelog latest --filename CHANGELOG.md)
