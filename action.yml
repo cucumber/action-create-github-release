@@ -1,0 +1,14 @@
+name: "Versions"
+author: "Matt Wynne"
+description: "Read version numbers from git tags and CHANGELOG to see if a release is needed"
+
+inputs:
+  github-token:
+    description: "Github token to use when calling GitHub API to create Release"
+    default: ""
+
+runs:
+  using: "docker"
+  image: Dockerfile
+  args:
+    - ${{ inputs.github-token }}

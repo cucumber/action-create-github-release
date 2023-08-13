@@ -1,0 +1,40 @@
+name: 'Clean up from tests'
+description: 'Delete any existing data created by the tests'
+inputs:
+  github-token:
+    description: "Github token to use when calling GitHub API"
+    default: ""
+runs:
+  using: "composite"
+  steps:
+    - name: Delete Release
+      run: |
+        gh auth status
+        name="vT.E.S.T"
+        echo "Release to delete: $name"
+        echo "List releases:"
+        gh release list
+        echo "That's all of them"
+        all_releases=$(gh release list)
+        echo "All releases: $all_releases"
+        if [[ -z "$all_releases" ]] ; then
+          echo "No releases exist" 
+          exit 0
+        fi
+        release=$(echo $all_releases | { grep $name || true; } )
+        if [[ -z "$release" ]] ; then 
+          echo "No release named '$name' exists: nothing to delete"
+          exit 0
+        fi
+        gh release delete "$name" --yes
+      env: 
+        GITHUB_TOKEN: ${{ inputs.github-token }}
+      shell: bash
+
+    - name: Delete tags / branches
+      run: |
+        git push origin :refs/heads/develop
+        git push origin :refs/heads/release/test
+        git push origin :refs/tags/vT.E.S.T
+        exit 0
+      shell: bash
