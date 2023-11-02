@@ -28,3 +28,6 @@ jq -n -r \
     -H "Accept: application/vnd.github.v3+json" \
     https://api.github.com/repos/$GITHUB_REPOSITORY/releases \
     -d @-
+
+echo "::set-output name=version::$next_version"
+
