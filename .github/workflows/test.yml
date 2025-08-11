@@ -8,7 +8,7 @@ jobs:
     name: Creates a Release for a fast-forwarded release branch
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - uses: ./.github/actions/clean-up-from-tests
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
