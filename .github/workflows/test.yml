@@ -8,7 +8,7 @@ jobs:
     name: Creates a Release for a fast-forwarded release branch
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - uses: ./.github/actions/clean-up-from-tests
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -33,7 +33,7 @@ jobs:
         run: |
           git commit -am "Add a changelog"
       - name: Create a release in the CHANGELOG
-        uses: cucumber/action-changelog@v1.3
+        uses: cucumber/action-changelog@b68b3c5e0c188d436f40a24ebde81ca86ec199eb # v1.3
         with:
           args: release --output CHANGELOG.md T.E.S.T
       - name: Commit the release
