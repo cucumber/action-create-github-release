@@ -4,6 +4,8 @@ on:
   push:
     branches: [release/*, test-release/*]
 
+permissions: { }
+
 jobs:
   release:
     runs-on: ubuntu-latest
