@@ -9,7 +9,7 @@ jobs:
     permissions:
       contents: write
     runs-on: ubuntu-latest
-    name: Creates a Release for a fast-forwarded release branch
+    name: Creates a Github Release
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -22,7 +22,7 @@ jobs:
         run: |
           git config --global user.email "github-actions@example.com"
           git config --global user.name "GitHub Actions"
-          git checkout --orphan develop
+          git checkout --orphan test-release/test
       - run: touch CHANGELOG.md
       - name: Create a simple CHANGELOG
         run: |
@@ -41,12 +41,12 @@ jobs:
       - name: Commit the CHANGELOG
         run: |
           git commit -am "Release vT.E.S.T"
-      - name: Create a release branch
+      - name: Create and push a release
         run: |
-          git checkout HEAD^
-          git checkout -b test-release/test
-          git merge --ff-only develop 
+          git tag "vT.E.S.T"
+          git checkout HEAD
           git push --set-upstream origin test-release/test
+          git push origin --tags
       - name: Test the action - attempt to create a Release
         uses: $/
         with:
