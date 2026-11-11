@@ -30,19 +30,15 @@ jobs:
           # Changelog
 
           ## [Unreleased]
-          ### Added
-          - Some `amazing` stuff
 
-          [Unreleased]: https://github.com/example/repo/v0.0.0...HEAD
+          ## [v1.0.0] - 2026-11-11
+          ### Added
+          - Some  stuff
+
+          [Unreleased]: https://github.com/example/repo/v1.0.0...HEAD
+          [v1.0.0]: https://github.com/example/repo/v0.0.0...v1.0.0
           EOF
       - name: Commit the CHANGELOG
-        run: |
-          git commit -am "Add a changelog"
-      - name: Create a release in the CHANGELOG
-        uses: cucumber/action-changelog@b68b3c5e0c188d436f40a24ebde81ca86ec199eb # v1.3
-        with:
-          args: release --output CHANGELOG.md T.E.S.T
-      - name: Commit the release
         run: |
           git commit -am "Release vT.E.S.T"
       - name: Create a release branch
