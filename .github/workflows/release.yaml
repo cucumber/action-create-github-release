@@ -2,7 +2,10 @@ name: Release
 
 on:
   push:
-    branches: [release/*, test-release/*]
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+    branches:
+      - 'test-release/*'
 
 permissions: { }
 
